@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Variáveis reais e secretas
+.env
+.env.*
+
+# Arquivos seguros de exemplo
+!.env.example
+!.env.production.example
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Prisma Client gerado
+src/generated/prisma/

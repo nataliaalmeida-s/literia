@@ -1,0 +1,126 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String @id @default(uuid()) @db.Uuid
+  name           String @db.VarChar(80)
+  email          String @unique @db.VarChar(254)
+  passwordHash   String @map("password_hash") @db.VarChar(255)
+  sessionVersion Int    @default(0) @map("session_version")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  summaries           Summary[]
+  notifications       Notification[]
+  settings            UserSettings?
+  passwordResetTokens PasswordResetToken[]
+
+  @@map("users")
+}
+
+model PasswordResetToken {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+
+  /**
+   * Armazenaremos somente o SHA-256 do token.
+   * O token verdadeiro existirá apenas no link enviado.
+   */
+  tokenHash String @unique @map("token_hash") @db.VarChar(64)
+
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz(3)
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model Summary {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+
+  // Nome escolhido pelo usuário ao salvar o resumo.
+  title String? @db.VarChar(120)
+
+  // Dados informados ou encontrados sobre a obra.
+  workTitle String? @map("work_title") @db.VarChar(200)
+  author    String? @db.VarChar(160)
+
+  // Metadados recebidos do Google Books ou Open Library.
+  coverUrl             String? @map("cover_url") @db.VarChar(1000)
+  firstPublicationYear Int?    @map("first_publication_year")
+  editionPublishedDate String? @map("edition_published_date") @db.VarChar(40)
+  isbn                 String? @db.VarChar(32)
+  externalBookId       String? @map("external_book_id") @db.VarChar(120)
+  metadataSource       String? @map("metadata_source") @db.VarChar(30)
+
+  originalText String @map("original_text") @db.Text
+  summaryText  String @map("summary_text") @db.Text
+
+  saved    Boolean @default(false)
+  favorite Boolean @default(false)
+
+  hiddenFromHistory Boolean @default(false) @map("hidden_from_history")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  notifications Notification[]
+
+  @@index([userId])
+  @@index([userId, saved])
+  @@index([userId, favorite])
+  @@index([userId, createdAt])
+  @@index([userId, hiddenFromHistory, createdAt])
+  @@map("summaries")
+}
+
+model Notification {
+  id        String  @id @default(uuid()) @db.Uuid
+  userId    String  @map("user_id") @db.Uuid
+  summaryId String? @map("summary_id") @db.Uuid
+
+  type    String @db.VarChar(30)
+  title   String @db.VarChar(120)
+  message String @db.VarChar(400)
+
+  read      Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  summary Summary? @relation(fields: [summaryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+model UserSettings {
+  userId String @id @map("user_id") @db.Uuid
+
+  notifyOnSave     Boolean @default(true) @map("notify_on_save")
+  notifyOnFavorite Boolean @default(true) @map("notify_on_favorite")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}

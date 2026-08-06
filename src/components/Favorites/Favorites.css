@@ -1,0 +1,82 @@
+/* =====================================================
+   PÁGINA DE FAVORITOS
+===================================================== */
+
+.favorites-header {
+  background:
+    radial-gradient(
+      circle at 88% 22%,
+      rgba(241, 202, 208, 0.65),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(247, 221, 218, 0.92),
+      rgba(255, 251, 248, 0.98) 58%,
+      rgba(238, 226, 239, 0.76)
+    );
+}
+
+.favorites-header-icon {
+  color: #b35f68;
+}
+
+.favorites-card .library-card-type {
+  color: #ae626a;
+}
+
+.favorites-card .favorite-button.is-favorite {
+  background: #fff0ef;
+  color: #b55e66;
+}
+
+.favorites-page .modal-favorite-button.is-favorite {
+  border-color: #d7a4a6;
+  background: #fff0ef;
+  color: #ad5b63;
+}
+
+/* =====================================================
+   DADOS BIBLIOGRÁFICOS DOS FAVORITOS
+===================================================== */
+
+.favorites-card .library-book-cover {
+  border-color: #e2cbd0;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5dedd,
+      #eadfec
+    );
+
+  color: #b05e67;
+}
+
+.favorites-card
+.library-card-work-title
+svg {
+  color: #b3626a;
+}
+
+.favorites-page
+.library-modal-book {
+  border-color: #e3cdd2;
+
+  background:
+    radial-gradient(
+      circle at 94% 12%,
+      rgba(239, 213, 221, 0.55),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #fff8f6,
+      #fffdfb
+    );
+}
+
+.favorites-page
+.library-modal-book-eyebrow {
+  color: #ae626a;
+}

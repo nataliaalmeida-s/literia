@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="cover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d99a82"/>
+      <stop offset="1" stop-color="#b96f58"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fffaf1"/>
+      <stop offset="0.43" stop-color="#fffdf9"/>
+      <stop offset="0.485" stop-color="#f4ece5"/>
+      <stop offset="0.5" stop-color="#e6d9cf"/>
+      <stop offset="0.515" stop-color="#f4ece5"/>
+      <stop offset="0.57" stop-color="#fffdf9"/>
+      <stop offset="1" stop-color="#fffaf1"/>
+    </linearGradient>
+    <linearGradient id="crease" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9b756a" stop-opacity="0"/>
+      <stop offset="0.46" stop-color="#9b756a" stop-opacity="0.18"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.75"/>
+      <stop offset="0.54" stop-color="#8d6d80" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#8d6d80" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="bookShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#6a4444" flood-opacity="0.18"/>
+    </filter>
+    <filter id="pageShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#745757" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Capa única -->
+  <path
+    d="M76 52 H674 Q691 52 700 72 Q709 52 726 52 H1324 Q1368 52 1368 96 V803 Q1368 846 1324 846 H726 Q709 846 700 868 Q691 846 674 846 H76 Q32 846 32 803 V96 Q32 52 76 52 Z"
+    fill="url(#cover)"
+    stroke="#b56b53"
+    stroke-width="2"
+    filter="url(#bookShadow)"
+  />
+
+  <!-- Camadas contínuas de folhas -->
+  <path
+    d="M88 65 H676 Q692 65 700 83 Q708 65 724 65 H1312 Q1355 65 1355 106 V794 Q1355 833 1312 833 H724 Q708 833 700 851 Q692 833 676 833 H88 Q45 833 45 794 V106 Q45 65 88 65 Z"
+    fill="#e3c9a8"
+    stroke="#cda77e"
+    stroke-width="1.5"
+  />
+  <path
+    d="M96 72 H677 Q693 72 700 89 Q707 72 723 72 H1304 Q1346 72 1346 112 V788 Q1346 826 1304 826 H723 Q707 826 700 843 Q693 826 677 826 H96 Q54 826 54 788 V112 Q54 72 96 72 Z"
+    fill="#f0ddc4"
+    stroke="#d8b991"
+    stroke-width="1.2"
+  />
+  <path
+    d="M104 79 H678 Q693 79 700 95 Q707 79 722 79 H1296 Q1338 79 1338 119 V781 Q1338 818 1296 818 H722 Q707 818 700 835 Q693 818 678 818 H104 Q62 818 62 781 V119 Q62 79 104 79 Z"
+    fill="#f8ecda"
+    stroke="#e4cba8"
+    stroke-width="1.1"
+  />
+  <path
+    d="M112 86 H679 Q694 86 700 102 Q706 86 721 86 H1288 Q1330 86 1330 126 V774 Q1330 810 1288 810 H721 Q706 810 700 827 Q694 810 679 810 H112 Q70 810 70 774 V126 Q70 86 112 86 Z"
+    fill="#fff7ea"
+    stroke="#ead8bd"
+    stroke-width="1"
+  />
+
+  <!-- Página superior única -->
+  <path
+    d="M121 92 H680 Q694 92 700 108 Q706 92 720 92 H1279 Q1321 92 1321 132 V765 Q1321 802 1279 802 H720 Q706 802 700 820 Q694 802 680 802 H121 Q79 802 79 765 V132 Q79 92 121 92 Z"
+    fill="url(#paper)"
+    stroke="#eadbd0"
+    stroke-width="1.4"
+    filter="url(#pageShadow)"
+  />
+
+  <!-- Vinco integrado ao livro -->
+  <path
+    d="M700 108 C694 310 694 610 700 820"
+    fill="none"
+    stroke="url(#crease)"
+    stroke-width="24"
+    stroke-linecap="round"
+  />
+
+  <!-- Linhas discretas das folhas na base -->
+  <path d="M103 812 H676 Q692 812 700 830 Q708 812 724 812 H1297" fill="none" stroke="#d8b991" stroke-width="1" opacity="0.75"/>
+  <path d="M95 820 H675 Q692 820 700 838 Q708 820 725 820 H1305" fill="none" stroke="#cfae86" stroke-width="1" opacity="0.65"/>
+  <path d="M87 828 H674 Q691 828 700 846 Q709 828 726 828 H1313" fill="none" stroke="#c69f74" stroke-width="1" opacity="0.55"/>
+</svg>

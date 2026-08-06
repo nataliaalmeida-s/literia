@@ -1,0 +1,3488 @@
+.summary-section {
+  --rose: #bd7477;
+  --rose-dark: #9f5d62;
+  --rose-soft: #f3dad6;
+  --purple: #88739d;
+  --purple-soft: #e9e0f0;
+  --paper: #fffdf9;
+  --text: #59474b;
+  --muted: #927d80;
+  --border: #e7d2cd;
+
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  overflow: hidden;
+  scroll-margin-top: 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: #fbf7f4;
+
+  box-shadow:
+    0 22px 55px rgba(105, 72, 76, 0.1),
+    0 2px 8px rgba(105, 72, 76, 0.04);
+}
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.summary-section-header {
+  padding: 34px 40px 30px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+
+  border-bottom: 1px solid var(--border);
+
+  background:
+    radial-gradient(circle at 88% 16%,
+      rgba(222, 211, 235, 0.44),
+      transparent 31%),
+    linear-gradient(120deg,
+      rgba(248, 225, 219, 0.72),
+      rgba(255, 251, 248, 0.94) 56%,
+      rgba(239, 232, 244, 0.46));
+}
+
+.summary-eyebrow {
+  display: block;
+  color: var(--rose);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.summary-section-header h2 {
+  margin: 8px 0;
+  color: #513d42;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(29px, 3vw, 36px);
+  line-height: 1.15;
+}
+
+.summary-section-header p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.literary-divider {
+  width: min(280px, 100%);
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #b67072;
+}
+
+.literary-divider::before,
+.literary-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, #d9aaa6, transparent);
+}
+
+.literary-divider span {
+  font-size: 12px;
+}
+
+/* =====================================================
+   LIVRO ABERTO — ESTRUTURA ÚNICA EM SVG
+===================================================== */
+
+.summary-workspace.book-spread {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+
+  /* O SVG já contém capa, folhas laterais, folhas inferiores e vinco. */
+  padding: 62px 78px 88px;
+  background: transparent;
+}
+
+/* Um único desenho escalável substitui todos os encaixes de gradientes. */
+.summary-workspace.book-spread::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 10px 12px 8px;
+
+  background: url("/book-frame.svg") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 16px 22px rgba(102, 72, 75, 0.10));
+
+  pointer-events: none;
+}
+
+.summary-workspace.book-spread::after {
+  content: none;
+}
+
+/* As colunas agora são apenas áreas de conteúdo sobre a página única. */
+.book-spread .summary-input-column,
+.book-spread .summary-result-column {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+  min-height: 680px;
+  padding: 14px 34px 28px;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.book-spread .summary-input-column {
+  padding-right: 44px;
+}
+
+.book-spread .summary-result-column {
+  padding-left: 44px;
+}
+
+/* Remove todas as antigas peças decorativas independentes. */
+.book-spread .summary-input-column::before,
+.book-spread .summary-input-column::after,
+.book-spread .summary-result-column::before,
+.book-spread .summary-result-column::after {
+  content: none;
+}
+
+.book-spread .summary-input-column>*,
+.book-spread .summary-result-column>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================================================
+   CABEÇALHOS DAS PÁGINAS
+===================================================== */
+
+.summary-column-heading {
+  min-height: 62px;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  border-bottom: 1px solid #eee0dc;
+}
+
+.summary-column-heading>div:first-child {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.summary-column-heading strong {
+  display: block;
+  color: #554247;
+  font-size: 16px;
+}
+
+.summary-column-heading small {
+  display: block;
+  margin-top: 3px;
+  color: #9b8689;
+  font-size: 12px;
+}
+
+.chapter-label {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #ad7275;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.summary-result-column .chapter-label {
+  color: #88749a;
+}
+
+.step-number {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 13px;
+
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.summary-input-column .step-number {
+  background: var(--rose-soft);
+  color: #a85f64;
+  box-shadow: 0 7px 16px rgba(167, 94, 99, 0.11);
+}
+
+.summary-result-column .step-number {
+  background: var(--purple-soft);
+  color: var(--purple);
+  box-shadow: 0 7px 16px rgba(117, 94, 142, 0.11);
+}
+
+.small-action-button {
+  padding: 8px 11px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid #e3c9c4;
+  border-radius: 10px;
+
+  background: #fffaf7;
+  color: #a56567;
+
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.small-action-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: #cc9d99;
+  background: #fff4f0;
+}
+
+.small-action-button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   CAMPOS
+===================================================== */
+
+.book-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.summary-field {
+  min-width: 0;
+  display: grid;
+  gap: 9px;
+
+  color: #654f54;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-field>span,
+.field-label-row>span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.summary-field input,
+.summary-field textarea {
+  width: 100%;
+  border: 1px solid #ddc5c0;
+  outline: none;
+
+  background: #fff;
+  color: #554548;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.summary-field input {
+  height: 48px;
+  padding: 0 14px;
+  border-radius: 13px;
+}
+
+.summary-field textarea {
+  min-height: 365px;
+  padding: 17px;
+
+  resize: vertical;
+  border-radius: 16px;
+
+  font-size: 15px;
+  line-height: 32px;
+
+  background:
+    repeating-linear-gradient(to bottom,
+      #fffefd 0,
+      #fffefd 31px,
+      rgba(173, 125, 121, 0.085) 32px);
+  background-attachment: local;
+}
+
+.summary-field input:hover,
+.summary-field textarea:hover {
+  border-color: #cfa7a2;
+}
+
+.summary-field input:focus,
+.summary-field textarea:focus {
+  border-color: #bf7d7d;
+  background-color: #fffefd;
+
+  box-shadow:
+    0 0 0 4px rgba(187, 108, 111, 0.11),
+    0 8px 20px rgba(110, 73, 76, 0.06);
+}
+
+.summary-field input::placeholder,
+.summary-field textarea::placeholder {
+  color: #b4a0a2;
+  font-weight: 500;
+}
+
+.text-field {
+  margin-top: 20px;
+}
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.field-label-row small {
+  color: #a78e91;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.summary-error {
+  margin: 10px 0 0;
+  color: #b6575c;
+  font-size: 12px;
+}
+
+/* =====================================================
+   RESULTADO
+===================================================== */
+
+.result-status {
+  padding: 7px 10px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 999px;
+  background: #edf5ef;
+  color: #598064;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.summary-result-surface {
+  position: relative;
+  min-height: 390px;
+  padding: 24px;
+
+  display: grid;
+
+  border: 1px dashed #d6c3dc;
+  border-radius: 18px;
+
+  background:
+    radial-gradient(circle at 88% 8%,
+      rgba(220, 207, 234, 0.48),
+      transparent 32%),
+    repeating-linear-gradient(to bottom,
+      rgba(115, 82, 75, 0.014) 0,
+      rgba(115, 82, 75, 0.014) 1px,
+      transparent 1px,
+      transparent 24px),
+    #fffdfb;
+}
+
+.summary-result-surface.has-summary {
+  border-style: solid;
+  border-color: #d8c6d6;
+  background: linear-gradient(145deg, #fffdfb, #fcf9fd);
+}
+
+.empty-summary,
+.summary-loading {
+  position: relative;
+  max-width: 340px;
+  margin: auto;
+
+  display: grid;
+  place-items: center;
+
+  color: #8d777b;
+  text-align: center;
+}
+
+.empty-summary-icon,
+.loading-icon {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 18px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 21px;
+  background: linear-gradient(135deg, #efd3d0, #e3d9ed);
+  color: #a45f67;
+
+  box-shadow: 0 13px 28px rgba(131, 87, 91, 0.13);
+}
+
+.empty-summary strong,
+.summary-loading strong {
+  color: #594349;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 21px;
+}
+
+.empty-summary p,
+.summary-loading p {
+  margin: 9px 0 0;
+  color: #8c777a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.summary-loading .loading-icon {
+  animation: summaryPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes summaryPulse {
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 15px 34px rgba(131, 87, 91, 0.2);
+  }
+}
+
+/* =====================================================
+   RESUMO PREENCHIDO
+===================================================== */
+
+.generated-summary {
+  min-height: 445px;
+  display: flex;
+  flex-direction: column;
+}
+
+.generated-summary-header {
+  padding-bottom: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+
+  border-bottom: 1px solid #eee0dc;
+}
+
+.generated-summary-header span {
+  color: #b27373;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.generated-summary-header strong {
+  display: block;
+  margin-top: 5px;
+
+  color: #614b50;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 21px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.result-actions button {
+  height: 37px;
+  padding: 0 11px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  border: 1px solid #e4ceca;
+  border-radius: 10px;
+
+  background: #fff9f6;
+  color: #a36467;
+
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.generated-summary-text {
+  padding: 23px 2px;
+
+  color: #69595b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+}
+
+.generated-summary-text::first-letter {
+  float: left;
+  margin: 8px 10px 0 0;
+
+  color: #a86165;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 0.78;
+}
+
+.generated-summary-footer {
+  margin-top: auto;
+  padding-top: 16px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+
+  border-top: 1px solid #eee0dc;
+
+  color: #a08a8c;
+  font-size: 11px;
+}
+
+.generated-summary-footer::before {
+  content: "❦";
+  margin-right: auto;
+  color: #b48383;
+  font-family: Georgia, serif;
+  font-size: 14px;
+}
+
+/* =====================================================
+   BOTÕES INFERIORES
+===================================================== */
+
+.summary-toolbar {
+  margin: 0;
+  padding: 24px 24px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.clear-summary-button,
+.generate-summary-button {
+  min-width: 185px;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border-radius: 13px;
+
+  font-weight: 800;
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.clear-summary-button {
+  border: 1px solid #dcbab5;
+  background: #fffaf7;
+  color: #a35f63;
+  box-shadow: 0 8px 18px rgba(115, 76, 79, 0.06);
+}
+
+.clear-summary-button:hover {
+  transform: translateY(-2px);
+  border-color: #ca9692;
+  background: #fff3ef;
+}
+
+.generate-summary-button {
+  border: 0;
+  background: linear-gradient(135deg, #bd7175, #a85c62);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(159, 85, 90, 0.22);
+}
+
+.generate-summary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 29px rgba(159, 85, 90, 0.29);
+}
+
+.generate-summary-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 980px) {
+  .summary-workspace.book-spread {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .summary-workspace.book-spread::before,
+  .summary-workspace.book-spread::after {
+    display: none;
+  }
+
+  .book-spread .summary-input-column,
+  .book-spread .summary-result-column {
+    min-height: auto;
+    border: 1px solid #e8d7d1;
+    border-radius: 24px;
+    background: #fffdf9;
+    box-shadow: 0 12px 30px rgba(105, 74, 77, 0.06);
+  }
+
+  .book-spread .summary-input-column {
+    border-top: 5px solid #d99a97;
+  }
+
+  .book-spread .summary-result-column {
+    border-top: 5px solid #b7a2d1;
+  }
+
+  .book-spread .summary-input-column::before,
+  .book-spread .summary-input-column::after,
+  .book-spread .summary-result-column::before,
+  .book-spread .summary-result-column::after {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .summary-section-header {
+    padding: 27px 24px 25px;
+  }
+
+  .summary-workspace.book-spread {
+    padding: 15px;
+  }
+
+  .book-spread .summary-input-column,
+  .book-spread .summary-result-column {
+    padding: 22px;
+  }
+
+  .book-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-column-heading {
+    align-items: flex-start;
+  }
+
+  .summary-toolbar {
+    padding: 22px 15px 25px;
+    flex-direction: column;
+  }
+
+  .clear-summary-button,
+  .generate-summary-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .generated-summary-header {
+    flex-direction: column;
+  }
+
+  .generated-summary-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .empty-summary::before {
+    display: none;
+  }
+}
+
+/* =====================================================
+   CONTEÚDO E PROPORÇÕES FINAIS DO LIVRO
+===================================================== */
+
+.summary-workspace.book-spread {
+  --page-panel-height: 390px;
+  --page-action-width: 172px;
+
+  padding: 54px 74px 92px;
+}
+
+/* Mantém as duas páginas compactas e proporcionais */
+.book-spread .summary-input-column,
+.book-spread .summary-result-column {
+  min-height: 620px;
+
+  padding: 36px 40px 34px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Margens internas próximas ao miolo */
+.book-spread .summary-input-column {
+  padding-right: 46px;
+}
+
+.book-spread .summary-result-column {
+  padding-left: 46px;
+}
+
+/* Cabeçalhos dos capítulos */
+.book-spread .summary-column-heading {
+  min-height: 62px;
+  margin: 0 0 18px;
+  padding-bottom: 15px;
+}
+
+/*
+  Título e autor continuam guardados no JSX.
+  Para restaurá-los futuramente, remova esta regra.
+*/
+.book-spread .book-meta-grid {
+  display: none;
+}
+
+/* =====================================================
+   ÁREAS DE ENTRADA E RESULTADO COM O MESMO TAMANHO
+===================================================== */
+
+.book-spread .text-field {
+  display: block;
+  flex: none;
+
+  min-height: 0;
+  margin: 0;
+}
+
+/* Caixa para colar o trecho */
+.summary-field textarea {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: var(--page-panel-height);
+  min-height: var(--page-panel-height);
+  max-height: var(--page-panel-height);
+
+  padding: 26px 18px 18px;
+  line-height: 34px;
+
+  resize: none;
+
+  background:
+    repeating-linear-gradient(to bottom,
+      #fffefd 0,
+      #fffefd 33px,
+      rgba(173, 125, 121, 0.085) 34px);
+  background-attachment: local;
+}
+
+/* Caixa onde o resumo aparece */
+.book-spread .summary-result-surface {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: var(--page-panel-height);
+  min-height: var(--page-panel-height);
+  max-height: var(--page-panel-height);
+
+  flex: none;
+  overflow: auto;
+}
+
+/* Conteúdo do resumo já gerado */
+.book-spread .generated-summary {
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Centralização do estado vazio */
+.book-spread .empty-summary,
+.book-spread .summary-loading {
+  align-self: center;
+  justify-self: center;
+}
+
+/* =====================================================
+   BOTÕES INTERNOS
+===================================================== */
+
+.page-action-row {
+  width: 100%;
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Os dois botões da página esquerda ficam lado a lado */
+.page-action-row--double {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Todos os três botões terão exatamente o mesmo tamanho */
+.page-action-row .clear-text-button,
+.page-action-row .clear-summary-button,
+.page-action-row .generate-summary-button {
+  box-sizing: border-box;
+
+  width: var(--page-action-width);
+  min-width: var(--page-action-width);
+  max-width: var(--page-action-width);
+  height: 46px;
+  min-height: 46px;
+
+  margin: 0;
+  padding: 0 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-radius: 13px;
+
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+/* Limpar texto e Limpar tudo */
+.page-action-row .clear-text-button,
+.page-action-row .clear-summary-button {
+  border: 1px solid #ddbab5;
+
+  background: rgba(255, 250, 247, 0.94);
+  color: #a35f63;
+
+  box-shadow: 0 7px 16px rgba(115, 76, 79, 0.06);
+}
+
+.page-action-row .clear-text-button:hover:not(:disabled),
+.page-action-row .clear-summary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  border-color: #c9918e;
+  background: #fff3ef;
+
+  box-shadow: 0 10px 20px rgba(115, 76, 79, 0.1);
+}
+
+/* Gerar resumo */
+.page-action-row .generate-summary-button {
+  border: 0;
+
+  background: linear-gradient(135deg,
+      #bd7175,
+      #a85c62);
+
+  color: #fff;
+
+  box-shadow: 0 10px 21px rgba(159, 85, 90, 0.2);
+}
+
+.page-action-row .generate-summary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow: 0 13px 25px rgba(159, 85, 90, 0.27);
+}
+
+/* Botões desabilitados */
+.page-action-row button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+
+  transform: none;
+  box-shadow: none;
+}
+
+/* =====================================================
+   RESPONSIVIDADE DOS AJUSTES FINAIS
+===================================================== */
+
+@media (max-width: 980px) {
+  .summary-workspace.book-spread {
+    --page-panel-height: 340px;
+
+    padding: 20px;
+  }
+
+  .book-spread .summary-input-column,
+  .book-spread .summary-result-column {
+    min-height: auto;
+    padding: 30px 28px;
+  }
+}
+
+@media (max-width: 650px) {
+  .summary-workspace.book-spread {
+    --page-panel-height: 320px;
+    --page-action-width: 100%;
+  }
+
+  .book-spread .summary-input-column,
+  .book-spread .summary-result-column {
+    padding: 26px 22px;
+  }
+
+  .page-action-row--double {
+    flex-direction: column;
+  }
+
+  .page-action-row .clear-text-button,
+  .page-action-row .clear-summary-button,
+  .page-action-row .generate-summary-button {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* =====================================================
+   AJUSTES VISUAIS FINAIS DO LIVRO
+===================================================== */
+
+/*
+  Desce todo o conteúdo interno 8px.
+  Reduzimos o padding inferior na mesma proporção,
+  evitando aumentar novamente a altura do livro.
+*/
+.book-spread .summary-input-column,
+.book-spread .summary-result-column {
+  padding-top: 44px;
+  padding-bottom: 26px;
+}
+
+/* Texto do estado vazio menor e na cor do placeholder */
+.book-spread .empty-summary strong {
+  color: #b4a0a2;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Balão do símbolo central menor */
+.book-spread .empty-summary-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 14px;
+
+  border-radius: 18px;
+}
+
+/* Ícone de brilho menor dentro do balão */
+.book-spread .empty-summary-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* =====================================================
+   CABEÇALHO CENTRALIZADO
+===================================================== */
+
+.summary-section-header {
+  padding: 30px 40px 27px;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.summary-header-content {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-section-header h2 {
+  margin: 8px 0 0;
+}
+
+.summary-section-header .literary-divider {
+  margin: 19px auto 0;
+}
+
+.empty-summary::before {
+  content: none;
+}
+
+/* =====================================================
+   ASPAS DECORATIVAS DO RESULTADO VAZIO
+===================================================== */
+
+.summary-result-surface:not(.has-summary)[aria-busy="false"]::before,
+.summary-result-surface:not(.has-summary)[aria-busy="false"]::after {
+  position: absolute;
+  z-index: 0;
+
+  color: rgba(154, 111, 126, 0.075);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 68px;
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+/* Aspa superior esquerda */
+.summary-result-surface:not(.has-summary)[aria-busy="false"]::before {
+  content: "“";
+  top: 24px;
+  left: 34px;
+}
+
+/* Aspa inferior direita */
+.summary-result-surface:not(.has-summary)[aria-busy="false"]::after {
+  content: "”";
+  right: 34px;
+  bottom: 18px;
+}
+
+/* Mantém o conteúdo principal acima das aspas */
+.summary-result-surface .empty-summary {
+  position: relative;
+  z-index: 1;
+}
+
+/* Mais espaço acima dos títulos dos capítulos */
+.book-spread .summary-input-column,
+.book-spread .summary-result-column {
+  padding-top: 52px;
+  padding-bottom: 18px;
+}
+
+/* =====================================================
+   BOTÃO SALVAR RESUMO
+===================================================== */
+
+.page-action-row .save-summary-button {
+  box-sizing: border-box;
+
+  width: var(--page-action-width);
+  min-width: var(--page-action-width);
+  max-width: var(--page-action-width);
+
+  height: 46px;
+  min-height: 46px;
+
+  margin: 0;
+  padding: 0 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid #cdbdd8;
+  border-radius: 13px;
+
+  background: rgba(248, 243, 251, 0.96);
+  color: #806b93;
+
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 16px rgba(103, 83, 124, 0.08);
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.page-action-row .save-summary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  border-color: #ad97c1;
+  background: #f2eaf7;
+
+  box-shadow:
+    0 11px 22px rgba(103, 83, 124, 0.13);
+}
+
+.page-action-row .save-summary-button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 650px) {
+  .page-action-row .save-summary-button {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* =====================================================
+   RESUMO: QUEBRA PARA BAIXO, SEM ROLAGEM HORIZONTAL
+===================================================== */
+
+.book-spread .summary-result-surface {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.book-spread .generated-summary {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.book-spread .generated-summary-text {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  white-space: pre-wrap;
+
+  /* Quebra até palavras ou sequências sem espaços */
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  overflow-x: hidden;
+}
+
+/* Evita que cabeçalho e rodapé provoquem largura extra */
+.book-spread .generated-summary-header,
+.book-spread .generated-summary-footer {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Remove qualquer barra horizontal interna */
+.book-spread .summary-result-surface,
+.book-spread .generated-summary-text {
+  scrollbar-width: thin;
+}
+
+/* =====================================================
+   RESULTADO GERADO MAIS LIMPO
+===================================================== */
+
+.generated-summary-text {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 24px 2px;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow-x: hidden;
+}
+
+/* Remove definitivamente a letra capitular gigante */
+.generated-summary-text::first-letter {
+  float: none;
+  margin: 0;
+
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
+/* Data alinhada discretamente à direita */
+.generated-summary-footer {
+  justify-content: flex-end;
+}
+
+/* Remove o ornamento antigo do rodapé */
+.generated-summary-footer::before {
+  content: none;
+}
+
+.generated-summary-actions button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.book-spread .generated-summary-text {
+  padding-top: 16px;
+}
+
+/* =====================================================
+   BOTÃO COPIAR FLUTUANTE NO TEXTO
+===================================================== */
+
+.book-spread .generated-summary-text {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  padding: 22px 2px 24px;
+
+  display: flow-root;
+
+  overflow-x: hidden;
+}
+
+.book-spread .generated-summary-text p {
+  margin: 0;
+
+  color: #69595b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.85;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* A data permanece abaixo de todo o conteúdo */
+.generated-summary-footer {
+  clear: both;
+}
+
+/* =====================================================
+   RESUMO COM AÇÕES NO RODAPÉ
+===================================================== */
+
+.book-spread .generated-summary {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.book-spread .generated-summary-text {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+
+  padding: 20px 12px 18px 4px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.book-spread .generated-summary-text p {
+  width: 100%;
+  margin: 0;
+
+  color: #69595b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.85;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Rodapé fixo com copiar à esquerda e data à direita */
+.book-spread .generated-summary-footer {
+  flex: 0 0 auto;
+  clear: both;
+
+  margin-top: 0;
+  padding: 11px 2px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  border-top: 1px solid #eee0dc;
+
+  color: #a08a8c;
+  font-size: 11px;
+}
+
+.book-spread .generated-summary-footer::before {
+  content: none;
+}
+
+/* Apenas o ícone de copiar */
+.copy-summary-footer-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #e2c9c5;
+  border-radius: 9px;
+
+  background: #fff9f6;
+  color: #a56367;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.copy-summary-footer-button:hover {
+  transform: translateY(-1px);
+  border-color: #ca9895;
+  background: #fff3ef;
+}
+
+/* =====================================================
+   BARRAS DE ROLAGEM SEM INVADIR AS MOLDURAS
+===================================================== */
+
+.book-spread .summary-field textarea,
+.book-spread .generated-summary-text {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 108, 108, 0.62) transparent;
+  scrollbar-gutter: stable;
+}
+
+/* Largura da barra no Chrome, Edge e Safari */
+.book-spread .summary-field textarea::-webkit-scrollbar,
+.book-spread .generated-summary-text::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Remove as setinhas de cima e de baixo */
+.book-spread .summary-field textarea::-webkit-scrollbar-button,
+.book-spread .generated-summary-text::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Afasta a barra das curvas da moldura */
+.book-spread .summary-field textarea::-webkit-scrollbar-track,
+.book-spread .generated-summary-text::-webkit-scrollbar-track {
+  margin-block: 13px;
+  background: transparent;
+}
+
+/* Barra móvel */
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb,
+.book-spread .generated-summary-text::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  background: rgba(124, 108, 108, 0.62);
+  background-clip: content-box;
+}
+
+/* Barra móvel ao passar o mouse */
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb:hover,
+.book-spread .generated-summary-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(103, 87, 88, 0.78);
+  background-clip: content-box;
+}
+
+/* Garante distância entre o texto e a barra */
+.book-spread .summary-field textarea {
+  padding-right: 25px;
+}
+
+/* =====================================================
+   AJUSTES FINAIS — TEXTO, RODAPÉ E SCROLL
+===================================================== */
+
+/* 1. Aproveita melhor a altura do quadro do resumo */
+.book-spread .summary-result-surface.has-summary {
+  padding: 18px 18px 8px;
+}
+
+/* Área rolável do resumo */
+.book-spread .generated-summary-text {
+  padding: 18px 8px 4px 4px;
+}
+
+/* Desce e compacta o rodapé */
+.book-spread .generated-summary-footer {
+  min-height: 35px;
+  margin-top: 0;
+  padding: 5px 4px 0;
+
+  align-items: center;
+
+  border-top: 1px solid #eee0dc;
+}
+
+/* Botão de copiar pequeno no canto inferior esquerdo */
+.copy-summary-footer-button {
+  width: 29px;
+  height: 29px;
+
+  border-radius: 8px;
+}
+
+/* Data discreta no canto inferior direito */
+.book-spread .generated-summary-footer>span {
+  color: #a08a8c;
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* =====================================================
+   2. SCROLL DO TEXTO DE ENTRADA MAIS VISÍVEL
+===================================================== */
+
+.book-spread .summary-field textarea {
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding-right: 20px;
+
+  scrollbar-width: auto;
+  scrollbar-color:
+    rgba(112, 92, 95, 0.72) rgba(160, 126, 126, 0.06);
+
+  scrollbar-gutter: stable;
+}
+
+/* Barra no Chrome, Edge e Safari */
+.book-spread .summary-field textarea::-webkit-scrollbar {
+  width: 12px;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-track {
+  margin-block: 14px;
+
+  border-radius: 999px;
+  background: rgba(160, 126, 126, 0.06);
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb {
+  min-height: 52px;
+
+  border: 3px solid transparent;
+  border-radius: 999px;
+
+  background: rgba(112, 92, 95, 0.72);
+  background-clip: content-box;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 73, 77, 0.88);
+  background-clip: content-box;
+}
+
+/* Remove as setas que encostavam na moldura */
+.book-spread .summary-field textarea::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+
+  display: none;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* =====================================================
+   3. TEXTO DE ENTRADA IGUAL AO TEXTO GERADO
+===================================================== */
+
+.book-spread .summary-field textarea {
+  color: #69595b;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+
+  background:
+    repeating-linear-gradient(to bottom,
+      #fffefd 0,
+      #fffefd 29px,
+      rgba(173, 125, 121, 0.085) 30px);
+
+  background-attachment: local;
+}
+
+/* Mantém apenas a instrução inicial mais clara */
+.book-spread .summary-field textarea::placeholder {
+  color: #b4a0a2;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* =====================================================
+   PADRONIZAÇÃO DOS DOIS TEXTOS E SCROLLS
+===================================================== */
+
+/* 1. Remove as linhas do campo de texto */
+.book-spread .summary-field textarea {
+  background: #fffdfb;
+  background-image: none;
+  background-attachment: initial;
+}
+
+/* 2. Mesma tipografia no texto colado e no resumo */
+.book-spread .summary-field textarea,
+.book-spread .generated-summary-text p {
+  color: #69595b;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+  letter-spacing: 0;
+}
+
+/* Mantém os parágrafos e as quebras do texto */
+.book-spread .summary-field textarea,
+.book-spread .generated-summary-text p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Distância interna semelhante nos dois quadros */
+.book-spread .summary-field textarea {
+  padding: 20px 22px;
+}
+
+.book-spread .generated-summary-text {
+  padding: 20px 22px 8px;
+}
+
+/* =====================================================
+   SCROLLS PADRONIZADOS
+===================================================== */
+
+.book-spread .summary-field textarea,
+.book-spread .generated-summary-text {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(128, 108, 112, 0.68) transparent;
+
+  scrollbar-gutter: stable;
+}
+
+/* Chrome, Edge e Safari */
+.book-spread .summary-field textarea::-webkit-scrollbar,
+.book-spread .generated-summary-text::-webkit-scrollbar {
+  width: 9px;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-track,
+.book-spread .generated-summary-text::-webkit-scrollbar-track {
+  margin-block: 14px;
+
+  border-radius: 999px;
+  background: transparent;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb,
+.book-spread .generated-summary-text::-webkit-scrollbar-thumb {
+  min-height: 48px;
+
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  background: rgba(128, 108, 112, 0.68);
+  background-clip: content-box;
+}
+
+.book-spread .summary-field textarea::-webkit-scrollbar-thumb:hover,
+.book-spread .generated-summary-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(103, 86, 90, 0.82);
+  background-clip: content-box;
+}
+
+/* Remove as setinhas das extremidades */
+.book-spread .summary-field textarea::-webkit-scrollbar-button,
+.book-spread .generated-summary-text::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Evita diferenças de tamanho causadas pelas margens do parágrafo */
+.book-spread .generated-summary-text p {
+  width: 100%;
+  margin: 0;
+}
+
+/* =====================================================
+   MODAL PARA NOMEAR O RESUMO
+===================================================== */
+
+.save-summary-modal-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+
+  padding: 24px;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(75, 53, 58, 0.3);
+  backdrop-filter: blur(9px);
+}
+
+.save-summary-modal {
+  width: min(500px, 100%);
+  padding: 28px;
+
+  border: 1px solid #e2cbc6;
+  border-radius: 24px;
+
+  background:
+    radial-gradient(circle at 92% 8%,
+      rgba(224, 212, 237, 0.5),
+      transparent 32%),
+    #fffdf9;
+
+  box-shadow:
+    0 32px 80px rgba(73, 48, 54, 0.27);
+}
+
+.save-summary-modal-header {
+  padding-bottom: 20px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  border-bottom: 1px solid #eadbd6;
+}
+
+.save-summary-modal-header span {
+  color: #b66f73;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.save-summary-modal-header h3 {
+  margin: 7px 0 6px;
+
+  color: #584247;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.save-summary-modal-header p {
+  max-width: 360px;
+  margin: 0;
+
+  color: #947d81;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.close-save-summary-modal {
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border: 1px solid #e1cac5;
+  border-radius: 12px;
+
+  background: #fff9f6;
+  color: #9e6267;
+
+  cursor: pointer;
+}
+
+.save-summary-name-field {
+  position: relative;
+
+  margin-top: 23px;
+
+  display: grid;
+  gap: 9px;
+}
+
+.save-summary-name-field>span {
+  color: #675155;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.save-summary-name-field input {
+  width: 100%;
+  height: 52px;
+  padding: 0 58px 0 15px;
+
+  border: 1px solid #dec5c0;
+  border-radius: 14px;
+  outline: none;
+
+  background: #fff;
+  color: #59484c;
+
+  font: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.save-summary-name-field input:focus {
+  border-color: #bd7a7d;
+
+  box-shadow:
+    0 0 0 4px rgba(187, 108, 111, 0.11);
+}
+
+.save-summary-name-field input::placeholder {
+  color: #b29c9f;
+}
+
+.save-summary-name-field small {
+  position: absolute;
+  right: 14px;
+  bottom: 18px;
+
+  color: #ad9699;
+  font-size: 10px;
+}
+
+.save-summary-name-error {
+  margin: 10px 0 0;
+
+  color: #b5575c;
+  font-size: 12px;
+}
+
+.save-summary-modal-actions {
+  margin-top: 25px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save-summary-modal-actions button {
+  min-height: 44px;
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.cancel-save-summary-button {
+  border: 1px solid #dfc7c2;
+
+  background: #fff9f6;
+  color: #9e6267;
+}
+
+.confirm-save-summary-button {
+  border: 0;
+
+  background: linear-gradient(135deg,
+      #b97074,
+      #a65d63);
+
+  color: #fff;
+
+  box-shadow:
+    0 11px 23px rgba(153, 82, 87, 0.2);
+}
+
+.confirm-save-summary-button:disabled {
+  opacity: 0.43;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .save-summary-modal {
+    padding: 23px 20px;
+  }
+
+  .save-summary-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .save-summary-modal-actions button {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   CONFIRMAÇÃO APÓS SALVAR
+===================================================== */
+
+.save-success-modal-backdrop {
+  position: fixed;
+  z-index: 1100;
+  inset: 0;
+
+  padding: 24px;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(66, 49, 54, 0.36);
+
+  backdrop-filter: blur(7px);
+}
+
+.save-success-modal {
+  width: min(460px, 100%);
+  padding: 31px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px solid #dfc5c0;
+  border-radius: 24px;
+
+  background: #fffaf7;
+
+  text-align: center;
+
+  box-shadow:
+    0 30px 75px rgba(72, 46, 52, 0.24);
+}
+
+.save-success-modal-icon {
+  width: 62px;
+  height: 62px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(135deg,
+      #f1d9d5,
+      #e6dced);
+
+  color: #aa6268;
+
+  box-shadow:
+    0 13px 28px rgba(108, 72, 77, 0.12);
+}
+
+.save-success-modal-eyebrow {
+  margin-top: 19px;
+
+  color: #b66c72;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.save-success-modal h3 {
+  margin: 7px 0 10px;
+
+  color: #5b4449;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 27px;
+}
+
+.save-success-modal p {
+  max-width: 370px;
+  margin: 0;
+
+  color: #8f777b;
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.save-success-modal-actions {
+  width: 100%;
+  margin-top: 25px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(0, 1fr);
+
+  gap: 11px;
+}
+
+.stay-on-summary-button,
+.go-to-library-button {
+  min-height: 47px;
+  padding: 0 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-radius: 13px;
+
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.stay-on-summary-button {
+  border: 1px solid #dec8c3;
+
+  background: #fffdfb;
+  color: #876e72;
+}
+
+.stay-on-summary-button:hover {
+  transform: translateY(-1px);
+
+  border-color: #cfa9a4;
+  background: #fff7f3;
+}
+
+.go-to-library-button {
+  border: 0;
+
+  background:
+    linear-gradient(135deg,
+      #ba7075,
+      #a75e64);
+
+  color: #fff;
+
+  box-shadow:
+    0 11px 24px rgba(153, 79, 85, 0.2);
+}
+
+.go-to-library-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 15px 29px rgba(153, 79, 85, 0.25);
+}
+
+@media (max-width: 520px) {
+  .save-success-modal {
+    padding: 27px 21px;
+  }
+
+  .save-success-modal-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =====================================================
+   IDENTIFICAÇÃO DA OBRA
+===================================================== */
+
+.book-identification-panel {
+  width: min(1220px,
+      calc(100% - 40px));
+
+  margin:
+    0 auto 20px;
+
+  padding: 20px 22px;
+
+  border:
+    1px solid #e4cec8;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255, 252, 249, 0.86);
+
+  box-shadow:
+    0 13px 30px rgba(101, 71, 75, 0.06);
+}
+
+.book-identification-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.book-identification-icon {
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(135deg,
+      #efd6d3,
+      #e5dced);
+
+  color: #a66369;
+}
+
+.book-identification-header>div>span {
+  color: #b16d72;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.book-identification-header h3 {
+  margin: 3px 0 2px;
+
+  color: #5a454a;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 21px;
+}
+
+.book-identification-header p {
+  margin: 0;
+
+  color: #978185;
+  font-size: 11px;
+}
+
+.book-identification-fields {
+  margin-top: 17px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  align-items: end;
+  gap: 13px;
+}
+
+.book-identification-fields label {
+  display: grid;
+  gap: 7px;
+}
+
+.book-identification-fields label>span {
+  color: #685257;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.book-identification-fields input {
+  width: 100%;
+  height: 47px;
+  padding: 0 14px;
+
+  border:
+    1px solid #dec7c2;
+
+  border-radius: 13px;
+  outline: none;
+
+  background: #fffdfb;
+  color: #5c494d;
+
+  font: inherit;
+  font-size: 13px;
+}
+
+.book-identification-fields input:focus {
+  border-color: #bd7b7e;
+
+  box-shadow:
+    0 0 0 4px rgba(187, 108, 111, 0.1);
+}
+
+.search-book-button {
+  min-width: 145px;
+  height: 47px;
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 0;
+  border-radius: 13px;
+
+  background:
+    linear-gradient(135deg,
+      #b97074,
+      #a65e64);
+
+  color: #fff;
+
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 21px rgba(153, 82, 87, 0.18);
+}
+
+.search-book-button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.book-search-error {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+
+  border:
+    1px solid #e4b7b2;
+
+  border-radius: 11px;
+
+  background: #fff2ef;
+  color: #a9555b;
+
+  font-size: 11px;
+}
+
+.selected-book-preview {
+  margin-top: 15px;
+  padding: 11px 13px;
+
+  display: grid;
+
+  grid-template-columns:
+    45px minmax(0, 1fr);
+
+  align-items: center;
+  gap: 12px;
+
+  border:
+    1px solid #d9c9df;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(135deg,
+      #fff9f6,
+      #f8f3fb);
+}
+
+.selected-book-cover {
+  width: 45px;
+  height: 56px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  background: #eee2e8;
+  color: #8b728f;
+}
+
+.selected-book-cover img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.selected-book-information {
+  min-width: 0;
+
+  display: grid;
+  gap: 2px;
+}
+
+.selected-book-information>span {
+  color: #ad686e;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.selected-book-information strong {
+  overflow: hidden;
+
+  color: #59454a;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 17px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-book-information small {
+  overflow: hidden;
+
+  color: #907a7e;
+  font-size: 10px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-book-preview>button {
+  min-height: 37px;
+  padding: 0 13px;
+
+  border:
+    1px solid #d9c3d9;
+
+  border-radius: 10px;
+
+  background: #fffaf8;
+  color: #876f91;
+
+  font: inherit;
+  font-size: 10px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+/* =====================================================
+   MODAL DE PESQUISA DE LIVROS
+===================================================== */
+
+.book-search-modal-backdrop {
+  position: fixed;
+  z-index: 1250;
+  inset: 0;
+
+  padding: 24px;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    rgba(57, 43, 48, 0.43);
+
+  backdrop-filter: blur(7px);
+}
+
+.book-search-modal {
+  width: min(680px, 100%);
+  max-height:
+    calc(100vh - 48px);
+
+  padding: 26px;
+
+  overflow-y: auto;
+
+  border:
+    1px solid #dfc4be;
+
+  border-radius: 23px;
+
+  background: #fffaf7;
+
+  box-shadow:
+    0 30px 75px rgba(66, 43, 48, 0.26);
+}
+
+.book-search-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.book-search-modal-header>div>span {
+  color: #b3656b;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.book-search-modal-header h3 {
+  margin: 6px 0 5px;
+
+  color: #5b4247;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 27px;
+}
+
+.book-search-modal-header p {
+  margin: 0;
+
+  color: #927b7f;
+  font-size: 12px;
+}
+
+.book-search-modal-header>button {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border:
+    1px solid #dfc7c2;
+
+  border-radius: 12px;
+
+  background: #fff7f4;
+  color: #9e656a;
+
+  cursor: pointer;
+}
+
+.book-search-results {
+  margin-top: 22px;
+
+  display: grid;
+  gap: 11px;
+}
+
+.book-search-result {
+  width: 100%;
+  padding: 12px;
+
+  display: grid;
+
+  grid-template-columns:
+    66px minmax(0, 1fr) auto;
+
+  align-items: center;
+  gap: 14px;
+
+  border:
+    1px solid #e3d1cc;
+
+  border-radius: 15px;
+
+  background: #fffdfb;
+  color: inherit;
+
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.book-search-result:hover {
+  transform:
+    translateY(-1px);
+
+  border-color: #c99694;
+
+  box-shadow:
+    0 11px 24px rgba(105, 70, 75, 0.09);
+}
+
+.book-result-cover {
+  width: 66px;
+  height: 86px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-radius: 9px;
+
+  background: #eee3e9;
+  color: #8a7291;
+}
+
+.book-result-cover img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.book-result-information {
+  min-width: 0;
+
+  display: grid;
+  gap: 4px;
+}
+
+.book-result-information strong {
+  overflow: hidden;
+
+  color: #59454a;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 18px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-result-information>span {
+  color: #786267;
+  font-size: 12px;
+}
+
+.book-result-information small {
+  color: #9a8387;
+  font-size: 10px;
+}
+
+.book-result-select {
+  padding: 9px 11px;
+
+  border:
+    1px solid #dcc4d8;
+
+  border-radius: 10px;
+
+  color: #856d91;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.book-search-modal-footer {
+  margin-top: 19px;
+  padding-top: 17px;
+
+  display: flex;
+  justify-content: flex-end;
+
+  border-top:
+    1px solid #eadbd7;
+}
+
+.book-search-modal-footer button {
+  min-height: 41px;
+  padding: 0 15px;
+
+  border:
+    1px solid #ddc8c3;
+
+  border-radius: 11px;
+
+  background: #fff8f5;
+  color: #90666b;
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .book-identification-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .search-book-button {
+    width: 100%;
+  }
+
+  .book-search-result {
+    grid-template-columns:
+      55px minmax(0, 1fr);
+  }
+
+  .book-result-cover {
+    width: 55px;
+    height: 72px;
+  }
+
+  .book-result-select {
+    grid-column: 1 / -1;
+
+    text-align: center;
+  }
+}
+
+/* =====================================================
+   SOBRE A OBRA GERADA
+===================================================== */
+
+.generated-book-details {
+  width: min(1220px,
+      calc(100% - 40px));
+
+  margin: 24px auto 0;
+  padding: 24px;
+
+  display: grid;
+  grid-template-columns:
+    132px minmax(0, 1fr);
+
+  align-items: center;
+  gap: 25px;
+
+  border: 1px solid #e2cbc5;
+  border-radius: 22px;
+
+  background:
+    radial-gradient(circle at 94% 10%,
+      rgba(224, 216, 238, 0.58),
+      transparent 32%),
+    linear-gradient(135deg,
+      rgba(255, 249, 245, 0.98),
+      rgba(255, 253, 250, 0.98));
+
+  box-shadow:
+    0 16px 38px rgba(99, 68, 73, 0.09);
+}
+
+.generated-book-details-cover {
+  width: 132px;
+  height: 180px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid #dfcdc8;
+  border-radius: 13px;
+
+  background:
+    linear-gradient(135deg,
+      #f1dfdc,
+      #e8e0ef);
+
+  color: #8d7293;
+
+  box-shadow:
+    0 13px 27px rgba(89, 62, 68, 0.15);
+}
+
+.generated-book-details-cover img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  object-fit: cover;
+}
+
+.generated-book-details-content {
+  min-width: 0;
+
+  display: grid;
+  align-content: center;
+}
+
+.generated-book-details-eyebrow {
+  color: #b3686d;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.generated-book-details-content h3 {
+  margin: 7px 0 10px;
+
+  color: #574247;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: clamp(26px,
+      3vw,
+      36px);
+
+  line-height: 1.1;
+}
+
+.generated-book-details-author {
+  margin: 0;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #756064;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.generated-book-details-author svg {
+  color: #ad696e;
+}
+
+.generated-book-details-metadata {
+  margin-top: 17px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.generated-book-details-metadata span {
+  min-height: 32px;
+  padding: 0 11px;
+
+  display: inline-flex;
+  align-items: center;
+
+  border: 1px solid #e2d0cc;
+  border-radius: 999px;
+
+  background:
+    rgba(255, 252, 249, 0.8);
+
+  color: #8e767a;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .generated-book-details {
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+
+    text-align: center;
+  }
+
+  .generated-book-details-cover {
+    width: 115px;
+    height: 158px;
+  }
+
+  .generated-book-details-content {
+    justify-items: center;
+  }
+
+  .generated-book-details-metadata {
+    justify-content: center;
+  }
+}
+
+/* =====================================================
+   PESQUISA AUTOMÁTICA ANTES DE GERAR
+===================================================== */
+
+.book-search-empty {
+  margin-top: 22px;
+  padding: 30px 24px;
+
+  display: grid;
+  place-items: center;
+  gap: 9px;
+
+  border: 1px dashed #dfc8c3;
+  border-radius: 16px;
+
+  background:
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(228, 216, 239, 0.48),
+      transparent 34%
+    ),
+    #fffdfb;
+
+  text-align: center;
+}
+
+.book-search-empty-icon {
+  width: 55px;
+  height: 55px;
+  margin-bottom: 5px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #efd8d5,
+      #e6deed
+    );
+
+  color: #a5656b;
+}
+
+.book-search-empty strong {
+  color: #5d474c;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 19px;
+}
+
+.book-search-empty p {
+  max-width: 470px;
+  margin: 0;
+
+  color: #927b7f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.book-search-modal-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* =====================================================
+   IDENTIFICAÇÃO DA OBRA — ABERTURA EDITORIAL
+===================================================== */
+
+.book-identification-panel {
+  position: relative;
+
+  width: min(
+    1080px,
+    calc(100% - 80px)
+  );
+
+  margin: 34px auto 14px;
+  padding: 0 0 28px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  box-shadow: none;
+}
+
+/* Linha editorial inferior */
+.book-identification-panel::after {
+  content: "";
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(193, 137, 133, 0.42) 18%,
+      rgba(193, 137, 133, 0.42) 82%,
+      transparent
+    );
+}
+
+/* Cabeçalho centralizado */
+.book-identification-header {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+
+  text-align: center;
+}
+
+.book-identification-icon {
+  width: 43px;
+  height: 43px;
+  margin-bottom: 10px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid rgba(
+      190,
+      125,
+      126,
+      0.35
+    );
+
+  border-radius: 50%;
+
+  background: transparent;
+  color: #ad696e;
+
+  box-shadow: none;
+}
+
+.book-identification-header > div > span {
+  color: #b16d72;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.book-identification-header h3 {
+  margin: 5px 0 5px;
+
+  color: #584247;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: clamp(
+    25px,
+    3vw,
+    31px
+  );
+
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.book-identification-header p {
+  max-width: 540px;
+  margin: 0 auto;
+
+  color: #978185;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Ornamento abaixo do título */
+.book-identification-divider {
+  width: min(
+    230px,
+    70%
+  );
+
+  margin: 16px auto 0;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  color: #b8797b;
+}
+
+.book-identification-divider::before,
+.book-identification-divider::after {
+  content: "";
+
+  height: 1px;
+  flex: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(190, 128, 128, 0.58)
+    );
+}
+
+.book-identification-divider::after {
+  transform: scaleX(-1);
+}
+
+.book-identification-divider span {
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 15px;
+}
+
+/* Campos como linhas de preenchimento */
+.book-identification-fields {
+  max-width: 940px;
+  margin: 25px auto 0;
+
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  align-items: end;
+  gap: 42px;
+}
+
+.book-identification-fields label {
+  display: grid;
+  gap: 4px;
+}
+
+.book-identification-fields label > span {
+  color: #8e6b70;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.book-identification-fields input {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 4px;
+
+  border: 0;
+  border-bottom:
+    1px solid #d9bdb8;
+
+  border-radius: 0;
+  outline: none;
+
+  background: transparent;
+  color: #5b474b;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 15px;
+
+  box-shadow: none;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.book-identification-fields input:hover {
+  border-bottom-color: #c99492;
+}
+
+.book-identification-fields input:focus {
+  border-color: #b96f73;
+
+  background: transparent;
+
+  box-shadow:
+    0 3px 0
+    rgba(185, 111, 115, 0.1);
+}
+
+.book-identification-fields input::placeholder {
+  color: #b39ea1;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Explicação discreta */
+.book-identification-note {
+  margin: 16px auto 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  color: #a08a8d;
+
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.book-identification-note svg {
+  flex: 0 0 auto;
+  color: #b6787b;
+}
+
+/* Obra escolhida sem aparência de card */
+.selected-book-preview {
+  max-width: 720px;
+
+  margin: 21px auto 0;
+  padding: 14px 0 0;
+
+  display: grid;
+  grid-template-columns:
+    45px minmax(0, 1fr);
+
+  align-items: center;
+  gap: 13px;
+
+  border: 0;
+  border-top:
+    1px solid #e4d1cc;
+
+  border-radius: 0;
+
+  background: transparent;
+
+  box-shadow: none;
+}
+
+.selected-book-cover {
+  box-shadow:
+    0 7px 15px
+    rgba(91, 62, 68, 0.13);
+}
+
+.selected-book-information > span {
+  color: #ae686d;
+}
+
+.selected-book-information strong {
+  font-size: 16px;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 760px) {
+  .book-identification-panel {
+    width:
+      calc(100% - 40px);
+
+    margin-top: 27px;
+  }
+
+  .book-identification-fields {
+    grid-template-columns: 1fr;
+    gap: 19px;
+  }
+
+  .book-identification-note {
+    max-width: 390px;
+  }
+}
+
+@media (max-width: 520px) {
+  .book-identification-panel {
+    width:
+      calc(100% - 30px);
+
+    padding-bottom: 24px;
+  }
+
+  .book-identification-header h3 {
+    font-size: 25px;
+  }
+
+  .book-identification-header p {
+    max-width: 310px;
+  }
+
+  .selected-book-preview {
+    grid-template-columns:
+      42px minmax(0, 1fr);
+  }
+
+  .selected-book-information strong,
+  .selected-book-information small {
+    white-space: normal;
+  }
+}
+
+/* =====================================================
+   SOBRE A OBRA — COMPOSIÇÃO EDITORIAL ABERTA
+===================================================== */
+
+.generated-book-details {
+  position: relative;
+
+  width: min(
+    1080px,
+    calc(100% - 80px)
+  );
+
+  margin: 34px auto 0;
+  padding: 30px 0 27px;
+
+  display: grid;
+  grid-template-columns:
+    138px minmax(0, 1fr);
+
+  align-items: center;
+  gap: 30px;
+
+  border: 0;
+  border-top:
+    1px solid rgba(
+      201,
+      157,
+      151,
+      0.45
+    );
+
+  border-bottom:
+    1px solid rgba(
+      201,
+      157,
+      151,
+      0.45
+    );
+
+  border-radius: 0;
+
+  background: transparent;
+
+  box-shadow: none;
+}
+
+/* Pequeno ornamento sobre a linha superior */
+.generated-book-details::before {
+  content: "❦";
+
+  position: absolute;
+  top: -10px;
+  left: 50%;
+
+  padding: 0 13px;
+
+  transform:
+    translateX(-50%);
+
+  background: #fbf7f4;
+  color: #ba777a;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 14px;
+}
+
+/* Capa da obra */
+.generated-book-details-cover {
+  width: 138px;
+  height: 188px;
+
+  border:
+    1px solid #dfccc7;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dfdc,
+      #e8e0ef
+    );
+
+  box-shadow:
+    0 12px 25px
+    rgba(89, 62, 68, 0.14);
+}
+
+/* Informações */
+.generated-book-details-content {
+  min-width: 0;
+
+  display: grid;
+  align-content: center;
+}
+
+.generated-book-details-eyebrow {
+  color: #b3686d;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.generated-book-details-content h3 {
+  margin: 8px 0 10px;
+
+  color: #574247;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: clamp(
+    29px,
+    3vw,
+    39px
+  );
+
+  line-height: 1.08;
+}
+
+.generated-book-details-author {
+  margin: 0;
+
+  color: #756064;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Metadados sem aparência de botões ou etiquetas */
+.generated-book-details-metadata {
+  margin-top: 19px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 0;
+}
+
+.generated-book-details-metadata span {
+  min-height: 0;
+  padding: 0 13px;
+
+  border: 0;
+  border-right:
+    1px solid #dfc8c3;
+
+  border-radius: 0;
+
+  background: transparent;
+
+  color: #917a7e;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.generated-book-details-metadata span:first-child {
+  padding-left: 0;
+}
+
+.generated-book-details-metadata span:last-child {
+  border-right: 0;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 700px) {
+  .generated-book-details {
+    width:
+      calc(100% - 40px);
+
+    grid-template-columns: 1fr;
+
+    justify-items: center;
+    gap: 20px;
+
+    padding:
+      30px 0 25px;
+
+    text-align: center;
+  }
+
+  .generated-book-details-cover {
+    width: 116px;
+    height: 160px;
+  }
+
+  .generated-book-details-content {
+    justify-items: center;
+  }
+
+  .generated-book-details-metadata {
+    justify-content: center;
+  }
+
+  .generated-book-details-metadata span:first-child {
+    padding-left: 13px;
+  }
+}
+
+@media (max-width: 520px) {
+  .generated-book-details {
+    width:
+      calc(100% - 30px);
+  }
+
+  .generated-book-details-metadata {
+    display: grid;
+    gap: 7px;
+  }
+
+  .generated-book-details-metadata span {
+    padding: 0;
+
+    border-right: 0;
+  }
+}

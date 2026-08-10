@@ -1,17 +1,10 @@
-import { Menu, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 import "./Header.css";
 
 export default function Header() {
   return (
     <header className="header">
-      <button
-        type="button"
-        className="mobile-menu"
-        aria-label="Abrir menu"
-      >
-        <Menu size={22} />
-      </button>
 
       <label className="search-box">
         <Search size={19} />

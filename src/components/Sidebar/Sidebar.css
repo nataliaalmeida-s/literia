@@ -107,6 +107,10 @@
     0 8px 17px rgba(112, 74, 78, 0.1);
 }
 
+.sidebar-toggle-mobile {
+  display: none;
+}
+
 /* =====================================================
    PERFIL
 ===================================================== */
@@ -419,32 +423,182 @@
 .profile:hover {
   transform: translateY(-1px);
 
-  border-color: rgba(
-    199,
-    139,
-    139,
-    0.52
-  );
+  border-color: rgba(199,
+      139,
+      139,
+      0.52);
 
   background:
     rgba(255, 249, 246, 0.66);
 
   box-shadow:
-    0 10px 24px
-      rgba(112, 74, 78, 0.08);
+    0 10px 24px rgba(112, 74, 78, 0.08);
 }
 
 .profile.active {
-  border-color: rgba(
-    194,
-    126,
-    130,
-    0.48
-  );
+  border-color: rgba(194,
+      126,
+      130,
+      0.48);
 
   background: #fff9f5;
 
   box-shadow:
-    0 9px 22px
-      rgba(132, 86, 90, 0.13);
+    0 9px 22px rgba(132, 86, 90, 0.13);
+}
+
+/* =====================================================
+   CORREÇÃO DO MENU MOBILE
+===================================================== */
+
+@media (max-width: 640px) {
+
+  .sidebar,
+  .sidebar.is-collapsed {
+    width: 100%;
+    min-height: auto;
+    padding: 12px 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    overflow: visible;
+
+    border-right: 0;
+    border-bottom:
+      1px solid rgba(154, 103, 103, 0.12);
+  }
+
+  /* -----------------------------------------------
+     CABEÇALHO DA SIDEBAR
+  ------------------------------------------------ */
+
+  .sidebar-top,
+  .sidebar.is-collapsed .sidebar-top {
+    width: 100%;
+    margin: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+  }
+
+  .logo,
+  .sidebar.is-collapsed .logo {
+    flex: 1;
+
+    justify-content: flex-start;
+  }
+
+  /*
+    O nome LiterIA deve permanecer
+    sempre visível no celular.
+  */
+  .sidebar .logo-text,
+  .sidebar.is-collapsed .logo-text {
+    display: inline;
+  }
+
+  /* -----------------------------------------------
+     BOTÕES
+  ------------------------------------------------ */
+
+  .sidebar-toggle-desktop {
+    display: none;
+  }
+
+  .sidebar-toggle-mobile {
+    display: grid;
+    place-items: center;
+  }
+
+  /* -----------------------------------------------
+     MENU FECHADO
+  ------------------------------------------------ */
+
+  .profile,
+  .sidebar-navigation,
+  .sidebar-footer {
+    display: none;
+  }
+
+  /* -----------------------------------------------
+     MENU ABERTO
+  ------------------------------------------------ */
+
+  .sidebar.is-mobile-open .profile {
+    width: 100%;
+    margin-top: 16px;
+
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .sidebar.is-mobile-open .profile-text {
+    display: flex;
+  }
+
+  .sidebar.is-mobile-open .sidebar-navigation {
+    width: 100%;
+    margin-top: 14px;
+
+    display: grid;
+    gap: 7px;
+  }
+
+  .sidebar.is-mobile-open .sidebar-footer {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+
+    display: grid;
+    gap: 6px;
+
+    border-top:
+      1px solid rgba(154, 103, 103, 0.12);
+  }
+
+  .sidebar.is-mobile-open .nav-item {
+    padding: 12px 14px;
+
+    justify-content: flex-start;
+  }
+
+  .sidebar.is-mobile-open .nav-item .nav-label {
+    display: inline;
+  }
+
+  /*
+    Se a sidebar estava recolhida no desktop
+    antes de mudar o tamanho da tela,
+    o mobile continua funcionando normalmente.
+  */
+  .sidebar.is-mobile-open.is-collapsed .profile-text {
+    display: flex;
+  }
+
+  .sidebar.is-mobile-open.is-collapsed .nav-item .nav-label {
+    display: inline;
+  }
+
+  /* Restaura o badge completo no menu mobile */
+  .sidebar.is-mobile-open .nav-notification-badge,
+  .sidebar.is-mobile-open.is-collapsed .nav-notification-badge {
+    position: static;
+
+    width: auto;
+    min-width: 22px;
+    height: 22px;
+
+    margin-left: auto;
+    padding: 0 6px;
+
+    border: 0;
+
+    font-size: 9px;
+  }
 }

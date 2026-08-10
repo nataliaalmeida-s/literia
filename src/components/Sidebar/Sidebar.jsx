@@ -5,16 +5,19 @@ import {
   History,
   Home,
   LogOut,
+  Menu,
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
   Sparkles,
   UserRound,
+  X,
 } from "lucide-react";
 
 import "./Sidebar.css";
 import {
   NavLink,
+  useLocation,
   useNavigate,
 } from "react-router";
 
@@ -78,6 +81,13 @@ export default function Sidebar({
   } = useAuth();
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const [
+    mobileMenuOpen,
+    setMobileMenuOpen,
+  ] = useState(false);
 
   const [
     isLoggingOut,
@@ -146,6 +156,10 @@ export default function Sidebar({
     };
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   async function handleLogout() {
     setIsLoggingOut(true);
 
@@ -163,6 +177,9 @@ export default function Sidebar({
   return (
     <aside
       className={`sidebar ${collapsed ? "is-collapsed" : ""
+        } ${mobileMenuOpen
+          ? "is-mobile-open"
+          : ""
         }`}
     >
       <div className="sidebar-top">
@@ -178,7 +195,7 @@ export default function Sidebar({
 
         <button
           type="button"
-          className="sidebar-toggle"
+          className="sidebar-toggle sidebar-toggle-desktop"
           onClick={onToggle}
           aria-label={
             collapsed
@@ -195,6 +212,29 @@ export default function Sidebar({
             <PanelLeftOpen size={19} />
           ) : (
             <PanelLeftClose size={19} />
+          )}
+        </button>
+
+        <button
+          type="button"
+          className="sidebar-toggle sidebar-toggle-mobile"
+          onClick={() =>
+            setMobileMenuOpen(
+              (currentState) =>
+                !currentState,
+            )
+          }
+          aria-label={
+            mobileMenuOpen
+              ? "Fechar menu"
+              : "Abrir menu"
+          }
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? (
+            <X size={21} />
+          ) : (
+            <Menu size={21} />
           )}
         </button>
       </div>
